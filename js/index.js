@@ -80,33 +80,21 @@ function start(stratagem) {
 	}
 }
 
-const stratagems = [{
-	name:"ORBITAL 120MM HE BARRAGE", sequence: [t("ArrowRight"), t("ArrowRight"), t("ArrowDown"), t("ArrowLeft"), t("ArrowRight"), t("ArrowDown")],
-}, {
-	name:"ROCKET SENTRY", sequence: [t("ArrowDown"), t("ArrowUp"), t("ArrowRight"), t("ArrowRight"), t("ArrowLeft")],
-}, {
-	name:"ORBITAL ILLUMINATION FLARE", sequence: [t("ArrowRight"), t("ArrowRight"), t("ArrowLeft"), t("ArrowLeft")],
-}, {
-	name:"REINFORCE", sequence: [t("ArrowUp"), t("ArrowDown"), t("ArrowRight"), t("ArrowLeft"), t("ArrowUp")],
-}, {
-	name:"ORBITAL 380MM HE BARRAGE", sequence: [t("ArrowRight"), t("ArrowDown"), t("ArrowUp"), t("ArrowUp"), t("ArrowLeft"), t("ArrowDown"), t("ArrowDown")],
-}, {
-	name:"HELLBOMB", sequence: [t("ArrowDown"), t("ArrowUp"), t("ArrowLeft"), t("ArrowDown"), t("ArrowUp"), t("ArrowRight"), t("ArrowDown"), t("ArrowUp")],
-}, {
-	name:"ANTI-PERSONNEL MINEFIELD", sequence: [t("ArrowDown"), t("ArrowLeft"), t("ArrowUp"), t("ArrowRight")],
-}, {
-	name:"ORIBITAL AIRBURST STRIKE", sequence: [t("ArrowRight"), t("ArrowRight"), t("ArrowRight")],
-}, {
-	name:"EAGLE STRAFING GUN", sequence: [t("ArrowUp"), t("ArrowRight"), t("ArrowRight")],
-}, {
-	name:"GUARD DOG", sequence: [t("ArrowDown"), t("ArrowUp"), t("ArrowLeft"), t("ArrowUp"), t("ArrowRight"), t("ArrowDown")],
-}, {
-	name:"JUMP PACK", sequence: [t("ArrowDown"), t("ArrowUp"), t("ArrowUp"), t("ArrowDown"), t("ArrowUp")],
-}, {
-	name:"SHIELD GENERATOR PACK", sequence: [t("ArrowDown"), t("ArrowUp"), t("ArrowLeft"), t("ArrowRight"), t("ArrowLeft"), t("ArrowRight")],
-}, {
-	name:"MORTAR SENTRY", sequence: [t("ArrowDown"), t("ArrowUp"), t("ArrowRight"), t("ArrowRight"), t("ArrowDown")],
-}]
+const stratagems = [
+	{name:"ORBITAL 120MM HE BARRAGE", sequence: [t("ArrowRight"), t("ArrowRight"), t("ArrowDown"), t("ArrowLeft"), t("ArrowRight"), t("ArrowDown")]},
+	{name:"ROCKET SENTRY", sequence: [t("ArrowDown"), t("ArrowUp"), t("ArrowRight"), t("ArrowRight"), t("ArrowLeft")]},
+	{name:"ORBITAL ILLUMINATION FLARE", sequence: [t("ArrowRight"), t("ArrowRight"), t("ArrowLeft"), t("ArrowLeft")]},
+	{name:"REINFORCE", sequence: [t("ArrowUp"), t("ArrowDown"), t("ArrowRight"), t("ArrowLeft"), t("ArrowUp")]},
+	{name:"ORBITAL 380MM HE BARRAGE", sequence: [t("ArrowRight"), t("ArrowDown"), t("ArrowUp"), t("ArrowUp"), t("ArrowLeft"), t("ArrowDown"), t("ArrowDown")]},
+	{name:"HELLBOMB", sequence: [t("ArrowDown"), t("ArrowUp"), t("ArrowLeft"), t("ArrowDown"), t("ArrowUp"), t("ArrowRight"), t("ArrowDown"), t("ArrowUp")]},
+	{name:"ANTI-PERSONNEL MINEFIELD", sequence: [t("ArrowDown"), t("ArrowLeft"), t("ArrowUp"), t("ArrowRight")]},
+	{name:"ORIBITAL AIRBURST STRIKE", sequence: [t("ArrowRight"), t("ArrowRight"), t("ArrowRight")]},
+	{name:"EAGLE STRAFING GUN", sequence: [t("ArrowUp"), t("ArrowRight"), t("ArrowRight")]},
+	{name:"GUARD DOG", sequence: [t("ArrowDown"), t("ArrowUp"), t("ArrowLeft"), t("ArrowUp"), t("ArrowRight"), t("ArrowDown")]},
+	{name:"JUMP PACK", sequence: [t("ArrowDown"), t("ArrowUp"), t("ArrowUp"), t("ArrowDown"), t("ArrowUp")]},
+	{name:"SHIELD GENERATOR PACK", sequence: [t("ArrowDown"), t("ArrowUp"), t("ArrowLeft"), t("ArrowRight"), t("ArrowLeft"), t("ArrowRight")]},
+	{name:"MORTAR SENTRY", sequence: [t("ArrowDown"), t("ArrowUp"), t("ArrowRight"), t("ArrowRight"), t("ArrowDown")]}
+]
 
 start(stratagems[randomInt(stratagems.length)])
 
