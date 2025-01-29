@@ -8,7 +8,11 @@ body {
 }
 
 body > * {
-	margin: 0.5em;
+	margin: calc(0.01*100vh);
+	width: 100%;
+	display: flex;
+	align-items: center;
+	justify-content: center;
 }
 body > *:first-child {
 	margin-top: 0;
@@ -17,22 +21,21 @@ body > *:last {
 	margin-bottom: 0;
 }
 
-#keys,
 #sequence {
-	display: flex;
-	font-size: 2.5em;
 	gap: 0.2em;
+	font-size: min(calc(100vw/10), 2.5em);
 }
 
 #keys {
 	flex-direction: column;
 	align-items: center;
 	justify-content: center;
-	font-size: 1.5cm;
+	font-size: 2.6cm;
+	gap: 0.1em;
 }
 
 #keys * {
 	display: flex;
 	flex-direction: row;
-	gap: 0.3em;
+	gap: 0.2em;
 }
