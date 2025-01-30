@@ -15,23 +15,23 @@ document.addEventListener("keyup", e => keyInput(e.code))
 
 // User input is dealt in this function.
 async function keyInput(name) {
-	let arrow = t(name) // getting number from user input name.
-	if (arrow < 0) return // Ignoring keys there aren't arrows.
+	let direction = translateArrowNameToDirection(name) // getting number from user input name.
+	if (direction === "") return // Ignoring keys there aren't arrows.
 
-	if (arrow !== currentStratagem.sequence[correctArrows]) { // If next arrow is wrong.
+	if (direction !== currentStratagem.sequence[correctArrows]) { // If next arrow is wrong.
 		// Changing previously set arrows to color red.
 		for (let arrowIcon of sequence.children) {
 			if (!arrowIcon.classList.contains("matched")) break
 			arrowIcon.classList.replace("matched", "wrong")
 		}
 		// Replacing next arrow icon with solid red icon.
-		sequence.children[correctArrows].replaceWith(createIconFromN(arrow, "solid", "wrong"))
+		sequence.children[correctArrows].replaceWith(createIconFromN(direction, "solid", "wrong"))
 		await sleep(100) // Sleeping for a short time to allow icon changes to be seen.
 		return start(currentStratagem) // Restarting current stratagem.
 	}
 
 	arrowIcon = sequence.children[correctArrows] // Next arrow icon that was correctly guessed.
-	arrowIcon.replaceWith(createIconFromN(arrow, "solid", "matched")) // Replacing regular icon with solid icon.
+	arrowIcon.replaceWith(createIconFromN(direction, "solid", "matched")) // Replacing regular icon with solid icon.
 	// Unfortunately, as fontawesome substitute the icon element for an svg, we cannot simply change the class, because 
 	// it's a completely different icon.
 	correctArrows++ // next index of the sequence to be matched.
@@ -47,30 +47,30 @@ async function keyInput(name) {
 const sleep = (ms) => new Promise((r) => setTimeout(r, ms))
 
 // Translations between arrow names to arrow numbers.
-const t = (name) => {
+const translateArrowNameToDirection = (name) => {
 	switch (name) {
-	case "ArrowUp": return 0
-	case "ArrowLeft": return 1
-	case "ArrowDown": return 2
-	case "ArrowRight": return 3
-	default: return -1
+	case "ArrowUp": return "↑"
+	case "ArrowLeft": return "←"
+	case "ArrowDown": return "↓"
+	case "ArrowRight": return "→"
+	default: return ""
 	}
 }
 // Translations between arrow numbers to arrow icon direction class.
-const iconClassFromN = (n) => {
+const iconClassFromArrow = (n) => {
 	switch (n) {
-	case 0 : return "fa-circle-up"
-	case 1 : return "fa-circle-left"
-	case 2 : return "fa-circle-down"
-	case 3 : return "fa-circle-right"
+	case "↑" : return "fa-circle-up"
+	case "←" : return "fa-circle-left"
+	case "↓" : return "fa-circle-down"
+	case "→" : return "fa-circle-right"
 	default: return ""
 	}
 }
 
 // Returns a icon element from the number that represents an arrow direction and.
-function createIconFromN (n, type, ...extraClasses) {
+function createIconFromN (direction, type, ...extraClasses) {
 	const i = document.createElement("i");
-	i.classList.add(`fa-${type}`, iconClassFromN(n), ...extraClasses)
+	i.classList.add(`fa-${type}`, iconClassFromArrow(direction), ...extraClasses)
 	return i
 }
 
@@ -84,25 +84,36 @@ function start(stratagem) {
 	sequence.innerHTML = ""; // Removes all icons of the sequence on screen.
 	currentStratagem = stratagem // Keeps a reference to given stratagem
 	stratagemName.innerText = currentStratagem.name // Changes stratagem name on screen.
-	for (let n of currentStratagem.sequence) { // For each stratagem arrow.
-		sequence.appendChild(createIconFromN(n, "regular")) // Adds an icon, for that arrow, in the sequence on screen.
+	for (let direction of currentStratagem.sequence) { // For each stratagem arrow.
+		sequence.appendChild(createIconFromN(direction, "regular")) // Adds an icon, for that arrow, in the sequence on screen.
 	}
 }
 
 const stratagems = [
-	{name:"ORBITAL 120MM HE BARRAGE", sequence: [t("ArrowRight"), t("ArrowRight"), t("ArrowDown"), t("ArrowLeft"), t("ArrowRight"), t("ArrowDown")]},
-	{name:"ROCKET SENTRY", sequence: [t("ArrowDown"), t("ArrowUp"), t("ArrowRight"), t("ArrowRight"), t("ArrowLeft")]},
-	{name:"ORBITAL ILLUMINATION FLARE", sequence: [t("ArrowRight"), t("ArrowRight"), t("ArrowLeft"), t("ArrowLeft")]},
-	{name:"REINFORCE", sequence: [t("ArrowUp"), t("ArrowDown"), t("ArrowRight"), t("ArrowLeft"), t("ArrowUp")]},
-	{name:"ORBITAL 380MM HE BARRAGE", sequence: [t("ArrowRight"), t("ArrowDown"), t("ArrowUp"), t("ArrowUp"), t("ArrowLeft"), t("ArrowDown"), t("ArrowDown")]},
-	{name:"HELLBOMB", sequence: [t("ArrowDown"), t("ArrowUp"), t("ArrowLeft"), t("ArrowDown"), t("ArrowUp"), t("ArrowRight"), t("ArrowDown"), t("ArrowUp")]},
-	{name:"ANTI-PERSONNEL MINEFIELD", sequence: [t("ArrowDown"), t("ArrowLeft"), t("ArrowUp"), t("ArrowRight")]},
-	{name:"ORIBITAL AIRBURST STRIKE", sequence: [t("ArrowRight"), t("ArrowRight"), t("ArrowRight")]},
-	{name:"EAGLE STRAFING GUN", sequence: [t("ArrowUp"), t("ArrowRight"), t("ArrowRight")]},
-	{name:"GUARD DOG", sequence: [t("ArrowDown"), t("ArrowUp"), t("ArrowLeft"), t("ArrowUp"), t("ArrowRight"), t("ArrowDown")]},
-	{name:"JUMP PACK", sequence: [t("ArrowDown"), t("ArrowUp"), t("ArrowUp"), t("ArrowDown"), t("ArrowUp")]},
-	{name:"SHIELD GENERATOR PACK", sequence: [t("ArrowDown"), t("ArrowUp"), t("ArrowLeft"), t("ArrowRight"), t("ArrowLeft"), t("ArrowRight")]},
-	{name:"MORTAR SENTRY", sequence: [t("ArrowDown"), t("ArrowUp"), t("ArrowRight"), t("ArrowRight"), t("ArrowDown")]}
+	{name:"ORBITAL 120MM HE BARRAGE", sequence: "→→↓←→↓"},
+	{name:"ROCKET SENTRY", sequence: "↓↑→→←"},
+	{name:"ORBITAL ILLUMINATION FLARE", sequence: "→→←←"},
+	{name:"REINFORCE", sequence: "↑↓→←↑"},
+	{name:"ORBITAL 380MM HE BARRAGE", sequence: "→↓↑↑←↓↓"},
+	{name:"HELLBOMB", sequence: "↓↑←↓↑→↓↑"},
+	{name:"ANTI-PERSONNEL MINEFIELD", sequence: "↓←↑→"},
+	{name:"ORIBITAL AIRBURST STRIKE", sequence: "→→→"},
+	{name:"EAGLE STRAFING GUN", sequence: "↑→→"},
+	{name:"GUARD DOG", sequence: "↓↑←↑→↓"},
+	{name:"JUMP PACK", sequence: "↓↑↑↓↑"},
+	{name:"SHIELD GENERATOR PACK", sequence: "↓↑←→←→"},
+	{name:"MORTAR SENTRY", sequence: "↓↑→→↓"},
+	{name:"EAGLE 500KG BOMB", sequence: "↑→↓↓↓"},
+	{name:"EAGLE 110MM ROCEKT PODS", sequence: "↑→↑←"},
+	{name:"GATLING SENTY", sequence: "↓↑→←"},
+	{name:"RECOILLESS RIFLE", sequence: "↓←→→←"},
+	{name:"RESUPPLY", sequence: "↓↓↑→"},
+	{name:"MACHIHNE GUN", sequence: "↓←↓↑→"},
+	{name:"AUTOCANNON", sequence: "↓←↓↑↑→"},
+	{name:"HMG EMPLACEMENT", sequence: "↓↑←→→←"},
+	{name:"ANTI-MATERIAL RIFLE", sequence: "↓←→↑↓"},
+	{name:"ORBITAl LASER", sequence: "→↓↑→↓"},
+	{name:"EXPANDABLE ANTI-TANK", sequence: "↓↓←↑→"},
 ]
 
 start(stratagems[randomInt(stratagems.length)])
