@@ -18,11 +18,20 @@ async function keyInput(name) {
 	let arrow = t(name) // getting number from user input name.
 	if (arrow < 0) return // Ignoring keys there aren't arrows.
 
-	const nextArrow = currentStratagem.sequence[correctArrows] // Next arrow to be matched.
-	if (arrow !== nextArrow) return start(currentStratagem) // Restarting current stratagem.
+	if (arrow !== currentStratagem.sequence[correctArrows]) { // If next arrow is wrong.
+		// Changing previously set arrows to color red.
+		for (let arrowIcon of sequence.children) {
+			if (!arrowIcon.classList.contains("matched")) break
+			arrowIcon.classList.replace("matched", "wrong")
+		}
+		// Replacing next arrow icon with solid red icon.
+		sequence.children[correctArrows].replaceWith(createIconFromN(arrow, "solid", "wrong"))
+		await sleep(100) // Sleeping for a short time to allow icon changes to be seen.
+		return start(currentStratagem) // Restarting current stratagem.
+	}
 
 	arrowIcon = sequence.children[correctArrows] // Next arrow icon that was correctly guessed.
-	arrowIcon.replaceWith(createIconFromN(nextArrow, "solid")) // Replacing regular icon with solid icon.
+	arrowIcon.replaceWith(createIconFromN(arrow, "solid", "matched")) // Replacing regular icon with solid icon.
 	// Unfortunately, as fontawesome substitute the icon element for an svg, we cannot simply change the class, because 
 	// it's a completely different icon.
 	correctArrows++ // next index of the sequence to be matched.
@@ -59,9 +68,9 @@ const iconClassFromN = (n) => {
 }
 
 // Returns a icon element from the number that represents an arrow direction and.
-function createIconFromN (n, type) {
+function createIconFromN (n, type, ...extraClasses) {
 	const i = document.createElement("i");
-	i.classList.add(`fa-${type}`, iconClassFromN(n))
+	i.classList.add(`fa-${type}`, iconClassFromN(n), ...extraClasses)
 	return i
 }
 

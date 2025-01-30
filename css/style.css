@@ -8,17 +8,24 @@ body {
 }
 
 body > * {
-	margin: calc(0.01*100vh);
+	margin: calc(0.005*100vh);
 	width: 100%;
 	display: flex;
 	align-items: center;
 	justify-content: center;
+	width: min(25em, 100vw);
 }
-body > *:first-child {
+body > :first-child {
 	margin-top: 0;
 }
-body > *:last {
+body > :last-child {
 	margin-bottom: 0;
+}
+
+#stratagemName {
+	color: black;
+	background-color: yellow;
+	font-size: 1.3em;
 }
 
 #sequence {
@@ -38,4 +45,15 @@ body > *:last {
 	display: flex;
 	flex-direction: row;
 	gap: 0.2em;
+}
+
+#keys .myButtom:active {
+	transform: translateY(4px);
+}
+
+.matched {
+	color: yellow;
+}
+.wrong {
+	color: red;
 }
