@@ -24,16 +24,14 @@ async function keyInput(name) {
 			if (!arrowIcon.classList.contains("matched")) break
 			arrowIcon.classList.replace("matched", "wrong")
 		}
-		// Replacing next arrow icon with solid red icon.
-		sequence.children[correctArrows].replaceWith(createIconFromN(direction, "solid", "wrong"))
+		// Setting next arrow icon to become red.
+		sequence.children[correctArrows].classList.add("wrong")
 		await sleep(100) // Sleeping for a short time to allow icon changes to be seen.
 		return start(currentStratagem) // Restarting current stratagem.
 	}
 
 	arrowIcon = sequence.children[correctArrows] // Next arrow icon that was correctly guessed.
-	arrowIcon.replaceWith(createIconFromN(direction, "solid", "matched")) // Replacing regular icon with solid icon.
-	// Unfortunately, as fontawesome substitute the icon element for an svg, we cannot simply change the class, because 
-	// it's a completely different icon.
+	arrowIcon.classList.add("matched") // Setting regular icon to become yellow.
 	correctArrows++ // next index of the sequence to be matched.
 	
 	// If end of sequence has been reached.
@@ -59,19 +57,21 @@ const translateArrowNameToDirection = (name) => {
 // Translations between arrow numbers to arrow icon direction class.
 const iconClassFromArrow = (n) => {
 	switch (n) {
-	case "↑" : return "fa-circle-up"
-	case "←" : return "fa-circle-left"
-	case "↓" : return "fa-circle-down"
-	case "→" : return "fa-circle-right"
+	case "↑" : return "arrowup"
+	case "←" : return "arrowleft"
+	case "↓" : return "arrowdown"
+	case "→" : return "arrowright"
 	default: return ""
 	}
 }
 
-// Returns a icon element from the number that represents an arrow direction and.
-function createIconFromN (direction, type, ...extraClasses) {
-	const i = document.createElement("i");
-	i.classList.add(`fa-${type}`, iconClassFromArrow(direction), ...extraClasses)
-	return i
+// Returns a icon element and adds given class to it.
+function createArrowIconWithDirection (...classes) {
+	const arrowTemplate = document.querySelector("#arrowTemplate");
+	const template = arrowTemplate.content.cloneNode(true);
+	const arrowClone = template.querySelector(".arrow")
+	arrowClone.classList.add(...classes)
+	return arrowClone
 }
 
 const randomInt = (n) => Math.floor(Math.random()*n) // returns an random integer between zero and n.
@@ -85,7 +85,9 @@ function start(stratagem) {
 	currentStratagem = stratagem // Keeps a reference to given stratagem
 	stratagemName.innerText = currentStratagem.name // Changes stratagem name on screen.
 	for (let direction of currentStratagem.sequence) { // For each stratagem arrow.
-		sequence.appendChild(createIconFromN(direction, "regular")) // Adds an icon, for that arrow, in the sequence on screen.
+		const directionClass = iconClassFromArrow(direction) // Translates the direction to a class for that direction.
+		const arrowIcon = createArrowIconWithDirection(directionClass) // Creates an arrow icon.
+		sequence.appendChild(arrowIcon) // Adds arrow icon, for that arrow, in the sequence on screen.
 	}
 }
 

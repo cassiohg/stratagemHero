@@ -1,0 +1,71 @@
+body {
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	justify-content: center;
+	background-color: black;
+	color: white;
+}
+
+body > * {
+	margin: calc(0.005*100vh);
+	width: 100%;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	width: min(25em, 100vw);
+}
+body > :first-child {
+	margin-top: 0;
+}
+body > :last-child {
+	margin-bottom: 0;
+}
+
+#stratagemName {
+	color: black;
+	background-color: yellow;
+	font-size: 1.3em;
+}
+
+#sequence {
+	gap: 0.5em;
+}
+.arrow {
+	height: 2em;
+	width: 2em;
+}
+.arrow path { fill: gray; }
+.arrow.matched path { fill: yellow; }
+.arrow.wrong path { fill: red; }
+.arrowup { rotate: 270deg; }
+.arrowleft { rotate: 180deg; }
+.arrowdown { rotate: 90deg; }
+.arrowright { rotate: 0deg; }
+
+#keys {
+	flex-direction: column;
+	align-items: center;
+	justify-content: center;
+	font-size: 2.6cm;
+	gap: 0.1em;
+}
+#keys * {
+	display: flex;
+	flex-direction: row;
+	gap: 0.2em;
+}
+
+.keyboardArrowKey {
+	height: 2cm;
+	border: 4px solid white;
+	border-radius: 10%;
+}
+.keyboardArrowKey path { fill: white; }
+#ArrowUp { rotate: 270deg; }
+#ArrowUp:active { transform: translateX(-4px); }
+#ArrowLeft { rotate: 180deg; }
+#ArrowLeft:active { transform: translateY(-4px); }
+#ArrowDown { rotate: 90deg; }
+#ArrowDown:active {transform: translateX(4px); }
+#ArrowRight:active { transform: translateY(4px); }
