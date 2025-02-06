@@ -62,10 +62,8 @@ body > :last-child {
 	border-radius: 10%;
 }
 .keyboardArrowKey path { fill: white; }
+.keyboardArrowKey:active { transform: scale(0.97); }
 #ArrowUp { rotate: 270deg; }
-#ArrowUp:active { transform: translateX(-4px); }
 #ArrowLeft { rotate: 180deg; }
-#ArrowLeft:active { transform: translateY(-4px); }
 #ArrowDown { rotate: 90deg; }
-#ArrowDown:active {transform: translateX(4px); }
-#ArrowRight:active { transform: translateY(4px); }
+
